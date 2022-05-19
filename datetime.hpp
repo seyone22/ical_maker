@@ -6,9 +6,10 @@
 using namespace std;
 
 const string months[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+const string days[7] = { "Sat", "Sun" , "Mon", "Tue", "Wed", "Thu", "Fri" };
 
-string zellersAlgorithm(int day, int month, int year) {
-    const string weekday[7] = { "Saturday","Sunday","Monday","Tuesday", "Wednesday","Thursday","Friday" };
+string zellersAlgorithm(int day, int month, int year) 
+{
     int mon;
     if (month > 2)
         mon = month; //for march to december month code is same as month
@@ -20,7 +21,7 @@ string zellersAlgorithm(int day, int month, int year) {
     int c = year / 100; //first two digit
     int w = (day + floor((13 * (mon + 1)) / 5) + y + floor(y / 4) + floor(c / 4) + (5 * c));
     w = w % 7;
-    return weekday[w];
+    return days[w];
 }
 
 namespace DateTime {
@@ -90,7 +91,7 @@ namespace DateTime {
                     year++;
                 }
             }
-
+            dayOfWeek = zellersAlgorithm(day, month, year);
         }
     };
 

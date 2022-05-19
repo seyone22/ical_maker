@@ -11,16 +11,13 @@
 
 using namespace std;
 
-typedef string Time;
-
 const string timeSlots[7] = { "08.30AM-09.30AM", "09.30AM-10.30AM", "10.30AM-11.30AM", "11.30AM-12.30PM", "01.30PM-02.30PM", "02.30PM-03.30PM", "03.30PM-4.30PM" };
 const string cleanedStartTimeSlots[7] = { "0830", "0930", "1030", "1130", "1330", "1430", "1530" };
 const string cleanedEndTimeSlots[7] = { "0930", "1030", "1130", "1230", "1430", "1530", "1630" };
-const string days[7] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 const string venue[7] = { "LH3", "ICTL", "CL-I", "CL-II", "ELTU", "AHEADLAB", "LH1/FBS" };
 const string classes[12] = { "IT1214","IT1214(P)","IT1223","IT1223(P)","IT1232","IT1242","IT1252","IT1252(P)","IT1262","ACU1212","CSC1213(P)/IT1214(P)","CSC1213/IT1214" };
 
-
+const string daysSP[7] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 
 struct timetableEvent
 {
@@ -106,7 +103,7 @@ public:
                         tempInt = 4;
 
                     timetableEvent event;
-                    event.day = days[tempInt];
+                    event.day = daysSP[tempInt];
                     event.name = classes[i];
                     event.location = tempVenue;
                     event.startTime.parseStandardTime(tempStartTime);

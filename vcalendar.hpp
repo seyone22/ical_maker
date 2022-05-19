@@ -10,35 +10,23 @@ typedef string tz;
 
 namespace vcalendar
 {
-    //GENERAL FUNCTIONS TO DEAL WITH TIME IN THE TZ TIMESTAMP FORMAT
-    string fixTimeNumber(int number) //replace with stringify
-    {
-        string output = to_string(number);
-        if (number < 10)
-            output = "0" + output;
-        return output;
-    }
-
-    tz getTime(int day = 00, int month = 00, int year = 2000, int hour = 00, int minute = 00, int second = 00)
-    {
-        tz time;
-        time = time + to_string(year) + fixTimeNumber(month) + fixTimeNumber(day) + "T" + fixTimeNumber(hour) + fixTimeNumber(minute) + fixTimeNumber(second) + "Z";
-        return time;
-    }
-
-
     //STRUCTS CONTAINING THE DATA FOR THE CALENDAR ITSELF
     struct vEvent
     {
-        string uid = "", cn = "", mailto = "", summary = "", geo = "", description = "", eventClass = "PUBLIC", recurranceFreq = "";
-        tz dtstamp, dtstart, dtend, last_modified, recurranceEnd;
-        string recurrance = "RRULE:FREQ=" + recurranceFreq + ";UNTIL=" + recurranceEnd;
+        string uid = "", cn = "", mailto = "", summary = "", geo = "", description = "", eventClass = "PUBLIC", location;
+        tz dtstamp, dtstart, dtend, last_modified;
+        string recurrance;
 
         string constructEvent()
         {
             string eventString = "";
-            eventString = eventString + "\nBEGIN:VEVENT\nUID:" + uid + "\nDTSTAMP:" + dtstamp + "\nORGANIZER;CN=" + cn + ":MAILTO:" + mailto + "\nLAST-MODIFIED:" + last_modified + "\nDTSTART:" + dtstart + "\nDTEND:" + dtend + "\nSUMMARY:" + summary + "\nDESCRIPTION:" + description + "\nCLASS:" + eventClass + "\nGEO:" + geo + "\n" + recurrance + "\nEND:VEVENT";
+            eventString = eventString + "\nBEGIN:VEVENT\nUID:" + uid + "\nDTSTAMP:" + dtstamp + "\nORGANIZER;CN=" + cn + ":MAILTO:" + mailto + "\nLAST-MODIFIED:" + last_modified + "\nDTSTART:" + dtstart + "\nDTEND:" + dtend + "\nSUMMARY:" + summary + "\nDESCRIPTION:" + description + "\nCLASS:" + eventClass + "\nLOCATION:" + location + "\n" + recurrance + "\nEND:VEVENT";
             return eventString;
+        }
+
+        void setRecurrance(string recurranceEnd, string recurranceFreq = "WEEKLY")
+        {
+            recurrance = "RRULE:FREQ=" + recurranceFreq + ";UNTIL=" + recurranceEnd;
         }
     };
 
@@ -48,11 +36,20 @@ namespace vcalendar
         string version = "2.0", prodid = "-//test", method = "PUBLISH";
         vector<vEvent> events;
 
-        void addEvent(string summary, string lastmod, string dtstamp, string dtstart, string dtend)
+        void addEvent(string summary, string lastmod, string dtstamp, string dtstart, string dtend, string recurranceEnd, string venue)
         {
             vEvent newEvent;
 
             //adding data to event
+            //newEvent.uid
+            //newEvent.cn
+           // newEvent.mailto
+            //neweEvent.geo
+            //newEvent.description
+
+            newEvent.setRecurrance(recurranceEnd);
+            newEvent.location = venue;
+
             newEvent.summary = summary;
             newEvent.last_modified = lastmod;
             newEvent.dtstamp = dtstamp;

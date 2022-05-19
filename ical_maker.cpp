@@ -4,6 +4,8 @@
 #include <datetime.hpp>
 #include <timetable_handler.hpp>
 
+const DateTime::time midnight;
+
 //IO FUNCTIONS
 string getInput(string description)
 {
@@ -13,6 +15,9 @@ string getInput(string description)
     return input;
 }
 
+//defaults to Zulu Time. datetime.hpp converts to ist. set relevant timezones seperately
+// TODO: Make timezones changable using a config file
+// TODO: Make event selectable from a list of all events imported through a config file or through CLI.
 int main()
 {
     TimeTable timetable;
@@ -21,23 +26,33 @@ int main()
 
     string startDate, endDate;
     startDate = getInput("Please enter the day you want the calendar to begin printing");
-    endDate = getInput("Please enter the date you want to end printing (default 6mo)");
+    endDate = getInput("Please enter the date you want to end printing");
 
     vcalendar::vCalendar newCalendar;
     string now = DateTime::toTZtimestamp(DateTime::convert(DateTime::timeNow()), DateTime::dateNow());
-    DateTime::date eventDay, startDay; // needs to be calculated per events[i]
+    DateTime::date eventDay, startDay, endDay; // needs to be calculated per events[i]
     startDay.parseStandardDate(startDate);
-    eventDay = startDay;
+    endDay.parseStandardDate(endDate);
+    eventDay = startDay; //TODO: make convert safe for times before 5 am.
 
-    if(startDay.dayOfWeek == timetable.events[1].day)// same format?? Mon. if matches, eventday = startday, print. after full run, eventday++. check.
-    //worry about date conversion earlier than 5 am
-    for (int i = 0; i < timetable.events.size(); i++)
+    
+    
+    for(int i = 0; i < timetable.events.size(); i++)
     {
-        cout << "entering loop";
-        newCalendar.addEvent(timetable.events[i].name, now, now, DateTime::toTZtimestamp(DateTime::convert(timetable.events[i].startTime), eventDay), DateTime::toTZtimestamp(DateTime::convert(timetable.events[i].endTime), eventDay));
-        newCalendar.printEvent(i);
+        while (true)
+        {
+            if (eventDay.dayOfWeek == timetable.events[i].day)// same format?? Mon. if matches, eventday = startday, print. after full run, eventday++. check.
+            {
+                newCalendar.addEvent(timetable.events[i].name, now, now, DateTime::toTZtimestamp(DateTime::convert(timetable.events[i].startTime), eventDay), DateTime::toTZtimestamp(DateTime::convert(timetable.events[i].endTime), eventDay),DateTime::toTZtimestamp(midnight,endDay), timetable.events[i].location);
+                break;
+            }
+            else
+            {
+                eventDay.incrementDay();
+            }
+        }
+        eventDay = startDay;
     }
-
     newCalendar.generateFile();
 
     return 0;
