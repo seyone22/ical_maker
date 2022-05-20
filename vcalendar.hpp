@@ -69,7 +69,7 @@ namespace vcalendar
                 cout << "CONSTRUCTING EVENT\n";
                 calendarString = calendarString + events[i].constructEvent();
             }
-            cout << "CONSTRUCTING CALENDAR\n";
+            cout << "CONSTRUCTING CALENDAR WITH " << events.size() << " EVENTS\n";
             calendarString = calendarString + "\nEND:VCALENDAR";
             return calendarString;
         }

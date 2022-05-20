@@ -20,6 +20,8 @@ string getInput(string description)
 // TODO: Make event selectable from a list of all events imported through a config file or through CLI.
 int main()
 {
+    initialize();
+
     TimeTable timetable;
     timetable.fileName = getInput("Please enter the name of the file. NOTE:FILE MUST BE IN THE SAME DIRECTORY, AND BE CSV OF A VALID FORMAT");
     timetable.parseCSV();
@@ -34,8 +36,6 @@ int main()
     startDay.parseStandardDate(startDate);
     endDay.parseStandardDate(endDate);
     eventDay = startDay; //TODO: make convert safe for times before 5 am.
-
-    
     
     for(int i = 0; i < timetable.events.size(); i++)
     {
@@ -54,6 +54,9 @@ int main()
         eventDay = startDay;
     }
     newCalendar.generateFile();
+    cout << "Please press any key to exit\n";
+    int x;
+    cin >> x;
 
     return 0;
 }
