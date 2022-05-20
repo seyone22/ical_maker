@@ -218,7 +218,10 @@ public:
                 }
             counter++;
         }
-        cout << "EVENT STRUCT GENERATION SUCCESSFUL\n";
+        if (events.size() != 0)
+            cout << "EVENT STRUCT GENERATION SUCCESSFUL\n";
+        else
+            cout << "NO SUITABLE EVENTS FOUND!";
 
     }
 
