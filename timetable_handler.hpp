@@ -173,6 +173,7 @@ private:
         while (getline(check1, intermediate, ','))
         {
             tokens.push_back(intermediate);
+            cout << intermediate << endl;
         }
         //for(int i = 0; i < tokens.size(); i++)
             //cout << tokens[i] << endl;
@@ -185,7 +186,7 @@ public:
         cout << "TOKENIZING SUCCESSFUL!\n";
         string tempVenue;
         DateTime::time startTime, endTime;
-        int counter = -7, rowCounter = 1;
+        int counter = 0;
         cout << "GENERATING EVENT STRUCTS\n";
         for (string x : tokens)
         {
@@ -202,11 +203,13 @@ public:
             for (int i = 0; i < Classes.size(); i++)
                 if (x == Classes[i])
                 {
+                    //GOD KNOWS HOW THIS WORKS. I CERTAINLY DON'T.
                     double temp = (static_cast <double>(counter) / 7);
                     int tempInt = ceil(temp);
                     tempInt = ((counter - (2 * tempInt)) % 5) - 1;
                     if (tempInt < 0)
                         tempInt = 4;
+                    cout << counter << " " << tempInt << endl;
 
                     timetableEvent event;
                     event.day = daysSP[tempInt];
@@ -214,6 +217,8 @@ public:
                     event.location = tempVenue;
                     event.startTime = startTime;
                     event.endTime = endTime;
+
+                    cout << "Event " << event.day << event.name << event.location << event.startTime.hour << event.endTime.hour << endl;
                     events.push_back(event);
                 }
             counter++;
