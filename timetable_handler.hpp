@@ -158,7 +158,9 @@ private:
         else
         {
             cerr << "ERROR OPENING FILE\n";
-            exit(1); //WEIRD CODE
+            cout << "Please enter the name of the file. NOTE:FILE MUST BE IN THE SAME DIRECTORY, AND BE CSV OF A VALID FORMAT" << endl << ">> ";
+            cin >> fileName;
+            stringoutput = readCSV();
         }
         file.close();
         return stringoutput;
